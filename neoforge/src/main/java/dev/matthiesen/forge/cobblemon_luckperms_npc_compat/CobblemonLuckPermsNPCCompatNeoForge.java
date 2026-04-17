@@ -26,11 +26,6 @@ public class CobblemonLuckPermsNPCCompatNeoForge {
         CobblemonLuckPermsNPCCompat.onStartup(server);
     }
 
-    @SubscribeEvent
-    public void onCommandRegistration(RegisterCommandsEvent event) {
-        CobblemonLuckPermsNPCCompat.registerCommands(event.getDispatcher(), event.getBuildContext(), event.getCommandSelection());
-    }
-
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onServerStopping(ServerStoppingEvent event) {
         CobblemonLuckPermsNPCCompat.onShutdown();

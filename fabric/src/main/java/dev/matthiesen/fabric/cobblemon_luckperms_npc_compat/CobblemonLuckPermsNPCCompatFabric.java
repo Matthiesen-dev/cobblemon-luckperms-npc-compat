@@ -13,7 +13,6 @@ public class CobblemonLuckPermsNPCCompatFabric implements ModInitializer {
     public void onInitialize() {
         Constants.createInfoLog("Loading for Fabric Mod Loader");
         CobblemonLuckPermsNPCCompat.initialize();
-        CommandRegistrationCallback.EVENT.register(CobblemonLuckPermsNPCCompat::registerCommands);
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
             MinecraftServer runningServer = server.createCommandSourceStack().getServer();
             CobblemonLuckPermsNPCCompat.onStartup(runningServer);
