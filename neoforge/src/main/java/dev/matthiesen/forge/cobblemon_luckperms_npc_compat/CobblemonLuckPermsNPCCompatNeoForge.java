@@ -22,8 +22,7 @@ public class CobblemonLuckPermsNPCCompatNeoForge {
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        MinecraftServer server = event.getServer();
-        CobblemonLuckPermsNPCCompat.onStartup(server);
+        CobblemonLuckPermsNPCCompat.onStartup();
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

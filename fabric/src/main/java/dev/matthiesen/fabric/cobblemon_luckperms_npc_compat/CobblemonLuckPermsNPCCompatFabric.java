@@ -8,16 +8,11 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.MinecraftServer;
 
 public class CobblemonLuckPermsNPCCompatFabric implements ModInitializer {
-
     @Override
     public void onInitialize() {
         Constants.createInfoLog("Loading for Fabric Mod Loader");
         CobblemonLuckPermsNPCCompat.initialize();
-        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            MinecraftServer runningServer = server.createCommandSourceStack().getServer();
-            CobblemonLuckPermsNPCCompat.onStartup(runningServer);
-        });
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> CobblemonLuckPermsNPCCompat.onStartup());
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> CobblemonLuckPermsNPCCompat.onShutdown());
     }
-
 }
