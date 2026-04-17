@@ -1,1 +1,1 @@
-# template-cobblemon-sidemod
+# Cobblemon LuckPerms NPC Compat

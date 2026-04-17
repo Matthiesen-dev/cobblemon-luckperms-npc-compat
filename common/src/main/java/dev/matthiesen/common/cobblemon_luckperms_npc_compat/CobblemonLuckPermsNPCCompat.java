@@ -1,16 +1,16 @@
-package dev.matthiesen.common.template_cobblemon_sidemod;
+package dev.matthiesen.common.cobblemon_luckperms_npc_compat;
 
 import com.mojang.brigadier.CommandDispatcher;
-import dev.matthiesen.common.template_cobblemon_sidemod.commands.CommandRegistry;
-import dev.matthiesen.common.template_cobblemon_sidemod.config.ConfigManager;
-import dev.matthiesen.common.template_cobblemon_sidemod.config.ModConfig;
-import dev.matthiesen.common.template_cobblemon_sidemod.permissions.ModPermissions;
+import dev.matthiesen.common.cobblemon_luckperms_npc_compat.commands.CommandRegistry;
+import dev.matthiesen.common.cobblemon_luckperms_npc_compat.config.ConfigManager;
+import dev.matthiesen.common.cobblemon_luckperms_npc_compat.config.ModConfig;
+import dev.matthiesen.common.cobblemon_luckperms_npc_compat.permissions.ModPermissions;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.server.MinecraftServer;
 
-public class CommonModExample {
+public class CobblemonLuckPermsNPCCompat {
     public static ModPermissions permissions;
     public static ModConfig config;
     public static MinecraftServer currentServer;

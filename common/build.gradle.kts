@@ -18,6 +18,10 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${property("junit_version")}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${property("junit_version")}")
+
+    modApi(files("${rootProject.rootDir}/jars/molang-${property("molang_version")}.jar"))
+
+    compileOnly("net.luckperms:api:${property("luckperms_version")}")
 }
 
 tasks {

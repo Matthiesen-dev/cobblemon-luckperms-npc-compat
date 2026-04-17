@@ -21,6 +21,7 @@ allprojects {
     repositories {
         mavenCentral()
         maven("https://artefacts.cobblemon.com/releases/")
+        maven("https://maven.impactdev.net/repository/development/")
     }
 
     tasks {
