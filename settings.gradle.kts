@@ -1,5 +1,3 @@
-// By default, this is how your built jars are called
-// TODO: you might want to change it
 rootProject.name = "cobblemon-luckperms-npc-compat"
 
 pluginManagement {
