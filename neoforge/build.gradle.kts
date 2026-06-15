@@ -2,16 +2,12 @@ plugins {
     id("com.gradleup.shadow")
     id("dev.architectury.loom")
     id("architectury-plugin")
+    id("matthiesen.shadow-platform-conventions")
 }
 
 architectury {
     platformSetupLoomIde()
     neoForge()
-}
-
-loom {
-    enableTransitiveAccessWideners.set(true)
-    silentMojangMappingsLicense()
 }
 
 repositories {
@@ -27,13 +23,12 @@ val shadowBundle: Configuration by configurations.creating {
 }
 
 dependencies {
-    minecraft("net.minecraft:minecraft:${property("minecraft_version")}")
+    minecraft(libs.minecraft.net)
     mappings(loom.officialMojangMappings())
-    neoForge("net.neoforged:neoforge:${property("neoforge_version")}")
-
-    modImplementation("com.cobblemon:neoforge:${property("cobblemon_version")}") { isTransitive = false }
-    //Needed for cobblemon
-    forgeRuntimeLibrary("thedarkcolour:kotlinforforge-neoforge:${property("kotlin_for_forge_version")}") {
+    neoForge(libs.neoforge)
+    modImplementation(libs.bundles.neoforgeModImplementationNoTransitive) { isTransitive = false }
+    modRuntimeOnly(libs.bundles.neoforgeModRuntimeOnly)
+    forgeRuntimeLibrary(libs.kotlinforforge) {
         exclude("net.neoforged.fancymodloader", "loader")
     }
 
@@ -43,50 +38,19 @@ dependencies {
     }
     shadowBundle(project(":common", configuration = "transformProductionNeoForge"))
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${property("junit_version")}")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${property("junit_version")}")
-
-    modRuntimeOnly(files("${rootProject.rootDir}/jars/LuckPerms-NeoForge-${property("luckperms_mod_version")}.jar"))
+    testImplementation(libs.junit.api)
+    testRuntimeOnly(libs.junit.engine)
 }
 
 tasks {
-    test {
-        useJUnitPlatform()
-    }
-
     processResources {
-        inputs.property("mod_id", project.property("mod_id").toString())
-        inputs.property("version", project.version)
-
         filesMatching("META-INF/neoforge.mods.toml") {
             expand(project.properties)
         }
     }
 
-    jar {
-        archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")
-        archiveClassifier.set("dev-slim")
-    }
-
     shadowJar {
         exclude("fabric.mod.json")
-        archiveClassifier.set("dev-shadow")
-        archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")
         configurations = listOf(shadowBundle)
-    }
-
-    remapJar {
-        dependsOn(shadowJar)
-        inputFile.set(shadowJar.flatMap { it.archiveFile })
-        archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")
-        archiveVersion.set("${rootProject.version}")
-    }
-
-    remapSourcesJar {
-        dependsOn(shadowJar)
-        inputFile.set(shadowJar.flatMap { it.archiveFile })
-        archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")
-        archiveVersion.set("${project.version}")
-        archiveClassifier.set("sources")
     }
 }
