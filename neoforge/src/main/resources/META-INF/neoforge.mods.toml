@@ -36,7 +36,7 @@ side = "BOTH"
 
 [[dependencies.${mod_id}]]
 modId = "luckperms"
-type = "optional"
+mandatory = true
 versionRange = "[5.4.112,)"
 ordering = "AFTER"
 side = "SERVER"
