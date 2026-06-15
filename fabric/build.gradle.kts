@@ -18,7 +18,7 @@ loom {
     }
 }
 
-val shadowCommon: Configuration by configurations.creating
+val shadowBundle: Configuration by configurations.creating
 
 dependencies {
     minecraft("com.mojang:minecraft:${property("minecraft_version")}")
@@ -36,7 +36,7 @@ dependencies {
 
     implementation(project(":common", configuration = "namedElements"))
     "developmentFabric"(project(":common", configuration = "namedElements"))
-    shadowCommon(project(":common", configuration = "transformProductionFabric"))
+    shadowBundle(project(":common", configuration = "transformProductionFabric"))
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${property("junit_version")}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${property("junit_version")}")
@@ -67,7 +67,7 @@ tasks {
     shadowJar {
         archiveClassifier.set("dev-shadow")
         archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")
-        configurations = listOf(shadowCommon)
+        configurations = listOf(shadowBundle)
     }
 
     remapJar {
