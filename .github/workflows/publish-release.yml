@@ -1,0 +1,47 @@
+name: Publish Release to Modrinth
+
+# Minimum Required Secrets:
+# - MODRINTH_TOKEN (Modrinth API token with permissions to create versions)
+# - DISCORD_WEBHOOK_URL (The URL of the Discord webhook to send notifications to)
+
+on:
+  release:
+    types: [ published ]
+
+# The dependencies below correspond to:
+# - Cobblemon (MdwFAVRL)
+# - Matthiesen Lib API (j2JrSWnx)
+# - Luckperms (Vebnzrzj)
+
+## Fabric Only
+# - Fabric Permissions API (lzVo0Dll)
+
+jobs:
+  publish:
+    uses: matthiesen-dev/automation/.github/workflows/simple-publish.yml@main
+    permissions:
+      contents: write
+    with:
+      tag_name: ${{ github.event.release.tag_name }}
+      artifact_basename: "cobblemon-luckperms-npc-compat"
+      mod_name: "Cobblemon LuckPerms NPC Compat"
+      changelog: ${{ github.event.release.body }}
+      fabric_loader_version: "0.17.2+"
+      neoforge_loader_version: "21.1.182+"
+      modrinth_game_version: "1.21.1"
+      modrinth_id: "a3QRjgLr"
+      modrinth_dependencies: |-
+        [
+          {"project_id":"MdwFAVRL","dependency_type":"required"},
+          {"project_id":"j2JrSWnx","dependency_type":"required"},
+          {"project_id":"Vebnzrzj","dependency_type":"required"}
+        ]
+      modrinth_fabric_dependencies: |-
+        [
+          {"project_id":"lzVo0Dll","dependency_type":"required"}
+        ]
+      discord_icon_url: "https://raw.githubusercontent.com/Matthiesen-dev/.github/refs/heads/main/mod-logos/cobblemon-luckperms-npc-compat.png"
+    secrets:
+      git_token: ${{ secrets.GITHUB_TOKEN }}
+      MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
