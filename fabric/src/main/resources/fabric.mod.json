@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "dev.matthiesen.fabric.cobblemon_luckperms_npc_compat.CobblemonLuckPermsNPCCompatFabric"
+      "dev.matthiesen.cobblemon_luckperms_npc_compat.fabric.CobblemonLuckPermsNPCCompatFabric"
     ]
   },
   "depends": {

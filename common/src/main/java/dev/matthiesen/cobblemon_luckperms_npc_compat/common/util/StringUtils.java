@@ -1,10 +1,10 @@
-package dev.matthiesen.common.cobblemon_luckperms_npc_compat.util;
+package dev.matthiesen.cobblemon_luckperms_npc_compat.common.util;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-public class StringUtils {
+public final class StringUtils {
     public static long convertToSeconds(String input) {
         // Splits "4 days" into ["4", "days"]
         String[] parts = input.split(" ");
