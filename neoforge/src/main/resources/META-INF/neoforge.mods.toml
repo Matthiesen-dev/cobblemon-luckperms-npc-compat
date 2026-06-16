@@ -1,15 +1,15 @@
 modLoader = "javafml"
 loaderVersion = "[1,)"
-#issueTrackerURL = "A valid URL to your issue tracker where people can open bug tickets"
-license = "MIT License"
+issueTrackerURL = "${github_url}/issues"
+license = "${mod_license}"
 
 [[mods]]
 modId = "${mod_id}"
 version = "${version}"
-displayName = "Cobblemon LuckPerms NPC Compat"
-authors = "Adam Matthiesen"
+displayName = "${mod_name}"
+authors = "${mod_author}"
 description = '''
-A very cool multi-line description!
+${mod_description}
 '''
 #logoFile = ""
 
@@ -36,7 +36,7 @@ side = "BOTH"
 
 [[dependencies.${mod_id}]]
 modId = "luckperms"
-type = "optional"
+mandatory = true
 versionRange = "[5.4.112,)"
 ordering = "AFTER"
 side = "SERVER"
