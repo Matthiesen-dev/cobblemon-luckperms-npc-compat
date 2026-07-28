@@ -6,7 +6,8 @@ import net.neoforged.fml.common.Mod;
 @Mod(CobblemonLuckPermsNPCCompat.MOD_ID)
 public final class CobblemonLuckPermsNPCCompatNeoForge {
     public CobblemonLuckPermsNPCCompatNeoForge() {
-        CobblemonLuckPermsNPCCompat.INSTANCE.createInfoLog("Loading for NeoForge Mod Loader");
-        CobblemonLuckPermsNPCCompat.INSTANCE.initialize();
+        var INSTANCE = CobblemonLuckPermsNPCCompat.INSTANCE;
+        INSTANCE.createInfoLog("Loading for NeoForge Mod Loader");
+        INSTANCE.initialize();
     }
 }

@@ -6,7 +6,8 @@ import net.fabricmc.api.ModInitializer;
 public final class CobblemonLuckPermsNPCCompatFabric implements ModInitializer {
     @Override
     public void onInitialize() {
-        CobblemonLuckPermsNPCCompat.INSTANCE.createInfoLog("Loading for Fabric Mod Loader");
-        CobblemonLuckPermsNPCCompat.INSTANCE.initialize();
+        var INSTANCE = CobblemonLuckPermsNPCCompat.INSTANCE;
+        INSTANCE.createInfoLog("Loading for Fabric Mod Loader");
+        INSTANCE.initialize();
     }
 }

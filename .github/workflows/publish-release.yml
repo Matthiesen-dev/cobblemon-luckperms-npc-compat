@@ -10,7 +10,7 @@ on:
 
 # The dependencies below correspond to:
 # - Cobblemon (MdwFAVRL)
-# - Matthiesen Lib API (j2JrSWnx)
+# - Matthiesen Core (sqEZOmQo)
 # - Luckperms (Vebnzrzj)
 
 ## Fabric Only
@@ -33,7 +33,7 @@ jobs:
       modrinth_dependencies: |-
         [
           {"project_id":"MdwFAVRL","dependency_type":"required"},
-          {"project_id":"j2JrSWnx","dependency_type":"required"},
+          {"project_id":"sqEZOmQo","dependency_type":"required"},
           {"project_id":"Vebnzrzj","dependency_type":"required"}
         ]
       modrinth_fabric_dependencies: |-

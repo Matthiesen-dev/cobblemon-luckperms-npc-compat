@@ -11,7 +11,6 @@ authors = "${mod_author}"
 description = '''
 ${mod_description}
 '''
-#logoFile = ""
 
 [[dependencies.${mod_id}]]
 modId = "minecraft"
@@ -33,6 +32,13 @@ mandatory = true
 versionRange = "[1.7.3,)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "matthiesen_core"
+mandatory = true
+versionRange = "[1.0.0-beta.13,)"
+ordering = "AFTER"
+side = "SERVER"
 
 [[dependencies.${mod_id}]]
 modId = "luckperms"

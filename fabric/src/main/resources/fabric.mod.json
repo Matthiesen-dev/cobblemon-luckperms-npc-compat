@@ -8,7 +8,6 @@
     "${mod_author}"
   ],
   "license": "${mod_license}",
-  "icon": "icon.png",
   "custom": {
     "modmenu": {
       "links": {
@@ -25,6 +24,7 @@
   "depends": {
     "minecraft": "1.21.1",
     "cobblemon": ">=1.7.3 <1.8.0",
+    "matthiesen_core": ">=1.0.0-beta.13 <2.0.0",
     "luckperms": ">=5.4.0 <5.5.0"
   }
 }

@@ -5,6 +5,7 @@ import com.bedrockk.molang.runtime.value.DoubleValue;
 import com.cobblemon.mod.common.api.molang.MoLangFunctions;
 import dev.matthiesen.cobblemon_luckperms_npc_compat.common.CobblemonLuckPermsNPCCompat;
 import dev.matthiesen.cobblemon_luckperms_npc_compat.common.util.StringUtils;
+import dev.matthiesen.matthiesen_core.common.core.permissions.LuckPermsHelper;
 import net.luckperms.api.context.ImmutableContextSet;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
@@ -23,30 +24,28 @@ public final class PlayerFunctionsExtension {
     private static int sharedRemovePermissionNode(Player player, MoParams params) {
         String node = params.getString(0);
         ServerPlayer serverPlayer = (ServerPlayer) player;
-        User user = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getLPUser(serverPlayer);
+        User user = LuckPermsHelper.INSTANCE.getUser(serverPlayer);
         if (user == null) return 1;
         user.data().remove(Node.builder(node).build());
-        CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().saveUser(user);
+        LuckPermsHelper.INSTANCE.saveUser(user);
         return 0;
     }
 
     private static int sharedRemoveParentGroup(Player player, MoParams params) {
         String group = params.getString(0);
         ServerPlayer serverPlayer = (ServerPlayer) player;
-        User user = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getLPUser(serverPlayer);
+        User user = LuckPermsHelper.INSTANCE.getUser(serverPlayer);
         if (user == null) return 1;
-        CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().removeUserParentGroup(user, group);
-        CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().saveUser(user);
+        LuckPermsHelper.INSTANCE.removeUserParentGroup(user, group);
         return 0;
     }
 
     private static int sharedRemoveUserMetaData(Player player, MoParams params) {
         String key = params.getString(0);
         ServerPlayer serverPlayer = (ServerPlayer) player;
-        User user = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getLPUser(serverPlayer);
+        User user = LuckPermsHelper.INSTANCE.getUser(serverPlayer);
         if (user == null) return 1;
-        CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().clearMetaKey(user, key);
-        CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().saveUser(user);
+        LuckPermsHelper.INSTANCE.clearMetaKey(user, key);
         return 0;
     }
 
@@ -61,18 +60,17 @@ public final class PlayerFunctionsExtension {
                 String track = params.getString(0);
                 boolean dontAddToFirst = params.getInt(1) != 0;
                 ServerPlayer serverPlayer = (ServerPlayer) player;
-                User user = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getLPUser(serverPlayer);
+                User user = LuckPermsHelper.INSTANCE.getUser(serverPlayer);
                 if (user == null) return 1;
-                var trackManager = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getLPTrackManager();
-                if (trackManager == null) return 1;
+                var trackManager = LuckPermsHelper.INSTANCE.getLuckPerms().getTrackManager();
                 Track trackEntry = trackManager.getTrack(track);
                 if (trackEntry == null) return 1;
-                if (dontAddToFirst && !CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().isUserOnTrack(serverPlayer, track)) {
+                if (dontAddToFirst && !LuckPermsHelper.INSTANCE.isUserOnTrack(serverPlayer, track)) {
                     return 1;
                 }
                 trackEntry.promote(user, ImmutableContextSet.empty());
-                CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().saveUser(user);
-                CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().saveTrack(trackEntry);
+                LuckPermsHelper.INSTANCE.saveUser(user);
+                LuckPermsHelper.INSTANCE.saveTrack(trackEntry);
                 return 0;
             });
 
@@ -81,14 +79,13 @@ public final class PlayerFunctionsExtension {
                 String track = params.getString(0);
                 boolean dontRemoveFromFirst = params.getInt(1) != 0;
                 ServerPlayer serverPlayer = (ServerPlayer) player;
-                User user = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getLPUser(serverPlayer);
+                User user = LuckPermsHelper.INSTANCE.getUser(serverPlayer);
                 if (user == null) return 1;
-                var trackManager = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getLPTrackManager();
-                if (trackManager == null) return 1;
+                var trackManager = LuckPermsHelper.INSTANCE.getLuckPerms().getTrackManager();
                 Track trackEntry = trackManager.getTrack(track);
                 if (trackEntry == null) return 1;
 
-                List<String> currentUserGroups = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getUserGroups(serverPlayer);
+                List<String> currentUserGroups = LuckPermsHelper.INSTANCE.getUserGroups(serverPlayer);
                 List<String> trackGroups = trackEntry.getGroups();
                 String firstTrackGroup = trackEntry.getGroups().getFirst();
 
@@ -104,8 +101,8 @@ public final class PlayerFunctionsExtension {
                 }
 
                 trackEntry.demote(user, ImmutableContextSet.empty());
-                CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().saveUser(user);
-                CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().saveTrack(trackEntry);
+                LuckPermsHelper.INSTANCE.saveUser(user);
+                LuckPermsHelper.INSTANCE.saveTrack(trackEntry);
                 return 0;
             });
 
@@ -114,13 +111,13 @@ public final class PlayerFunctionsExtension {
                 String node = params.getString(0);
                 boolean value = params.getInt(1) != 0;
                 ServerPlayer serverPlayer = (ServerPlayer) player;
-                if (CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().hasPermissionNode(serverPlayer, node)) {
+                if (LuckPermsHelper.INSTANCE.hasPermissionNode(serverPlayer, node)) {
                     return 0;
                 }
-                User user = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getLPUser(serverPlayer);
+                User user = LuckPermsHelper.INSTANCE.getUser(serverPlayer);
                 if (user == null) return 1;
                 user.data().add(Node.builder(node).value(value).build());
-                CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().saveUser(user);
+                LuckPermsHelper.INSTANCE.saveUser(user);
                 return 0;
             });
 
@@ -133,11 +130,11 @@ public final class PlayerFunctionsExtension {
                 boolean value = params.getInt(1) != 0;
                 String duration = params.getString(2);
                 ServerPlayer serverPlayer = (ServerPlayer) player;
-                User user = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getLPUser(serverPlayer);
+                User user = LuckPermsHelper.INSTANCE.getUser(serverPlayer);
                 long exp = StringUtils.convertToSecondsFromNow(duration);
                 if (user == null) return 1;
                 user.data().add(Node.builder(node).value(value).expiry(exp).build());
-                CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().saveUser(user);
+                LuckPermsHelper.INSTANCE.saveUser(user);
                 return 0;
             });
 
@@ -148,7 +145,7 @@ public final class PlayerFunctionsExtension {
             map.put("lp_permission_check", params -> {
                 String node = params.getString(0);
                 ServerPlayer serverPlayer = (ServerPlayer) player;
-                if (CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().hasPermissionNode(serverPlayer, node)) {
+                if (LuckPermsHelper.INSTANCE.hasPermissionNode(serverPlayer, node)) {
                     return new DoubleValue(1);
                 }
                 return new DoubleValue(0);
@@ -158,18 +155,18 @@ public final class PlayerFunctionsExtension {
             map.put("lp_parent_set", params -> {
                 String group = params.getString(0);
                 ServerPlayer serverPlayer = (ServerPlayer) player;
-                User user = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getLPUser(serverPlayer);
+                User user = LuckPermsHelper.INSTANCE.getUser(serverPlayer);
                 if (user == null) return 1;
 
-                List<String> userGroups = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getUserGroups(serverPlayer);
+                List<String> userGroups = LuckPermsHelper.INSTANCE.getUserGroups(serverPlayer);
 
                 // first remove from existing groups
                 for (String userGroup : userGroups) {
-                    CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().removeUserParentGroup(user, userGroup);
+                    LuckPermsHelper.INSTANCE.removeUserParentGroup(user, userGroup);
                 }
 
                 // Then add the user to the new parent
-                CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().addUserParentGroup(serverPlayer, group);
+                LuckPermsHelper.INSTANCE.addUserParentGroup(serverPlayer, group);
                 return 0;
             });
 
@@ -177,7 +174,7 @@ public final class PlayerFunctionsExtension {
             map.put("lp_parent_add", params -> {
                 String group = params.getString(0);
                 ServerPlayer serverPlayer = (ServerPlayer) player;
-                CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().addUserParentGroup(serverPlayer, group);
+                LuckPermsHelper.INSTANCE.addUserParentGroup(serverPlayer, group);
                 return 0;
             });
 
@@ -189,13 +186,12 @@ public final class PlayerFunctionsExtension {
                 String track = params.getString(0);
                 String group = params.contains(1) ? params.getString(1) : null;
                 ServerPlayer serverPlayer = (ServerPlayer) player;
-                TrackManager trackManager = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getLPTrackManager();
-                if (trackManager == null) return 1;
+                TrackManager trackManager = LuckPermsHelper.INSTANCE.getLuckPerms().getTrackManager();
                 Track trackObj = trackManager.getTrack(track);
                 if (trackObj == null) return 1;
 
                 List<String> trackGroups = trackObj.getGroups();
-                List<String> userGroups = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getUserGroups(serverPlayer);
+                List<String> userGroups = LuckPermsHelper.INSTANCE.getUserGroups(serverPlayer);
 
                 for (String userGroup : userGroups) {
                     if (trackGroups.contains(userGroup)) return 1;
@@ -206,11 +202,11 @@ public final class PlayerFunctionsExtension {
                         return 1;
                     }
 
-                    CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().addUserParentGroup(serverPlayer, group);
+                    LuckPermsHelper.INSTANCE.addUserParentGroup(serverPlayer, group);
                 }
 
                 String trackFirstGroup = trackGroups.getFirst();
-                CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().addUserParentGroup(serverPlayer, trackFirstGroup);
+                LuckPermsHelper.INSTANCE.addUserParentGroup(serverPlayer, trackFirstGroup);
                 return 0;
             });
 
@@ -219,11 +215,11 @@ public final class PlayerFunctionsExtension {
                 String group = params.getString(0);
                 String duration = params.getString(1);
                 ServerPlayer serverPlayer = (ServerPlayer) player;
-                User user = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getLPUser(serverPlayer);
+                User user = LuckPermsHelper.INSTANCE.getUser(serverPlayer);
                 if (user == null) return 1;
                 long exp = StringUtils.convertToSecondsFromNow(duration);
                 user.data().add(InheritanceNode.builder(group).expiry(exp).build());
-                CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().saveUser(user);
+                LuckPermsHelper.INSTANCE.saveUser(user);
                 return 0;
             });
 
@@ -235,12 +231,12 @@ public final class PlayerFunctionsExtension {
                 String key = params.getString(0);
                 String value = params.getString(1);
                 ServerPlayer serverPlayer = (ServerPlayer) player;
-                User user = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getLPUser(serverPlayer);
+                User user = LuckPermsHelper.INSTANCE.getUser(serverPlayer);
                 if (user == null) return 0;
                 MetaNode node = MetaNode.builder(key, value).build();
-                CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().clearMetaKey(user, key);
+                LuckPermsHelper.INSTANCE.clearMetaKey(user, key);
                 user.data().add(node);
-                CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().saveUser(user);
+                LuckPermsHelper.INSTANCE.saveUser(user);
                 return 0;
             });
 
@@ -253,13 +249,13 @@ public final class PlayerFunctionsExtension {
                 String value = params.getString(1);
                 String duration = params.getString(2);
                 ServerPlayer serverPlayer = (ServerPlayer) player;
-                User user = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getLPUser(serverPlayer);
+                User user = LuckPermsHelper.INSTANCE.getUser(serverPlayer);
                 if (user == null) return 0;
                 long exp = StringUtils.convertToSecondsFromNow(duration);
                 MetaNode node = MetaNode.builder(key, value).expiry(exp).build();
-                CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().clearMetaKey(user, key);
+                LuckPermsHelper.INSTANCE.clearMetaKey(user, key);
                 user.data().add(node);
-                CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().saveUser(user);
+                LuckPermsHelper.INSTANCE.saveUser(user);
                 return 0;
             });
 
@@ -270,7 +266,7 @@ public final class PlayerFunctionsExtension {
             map.put("lp_meta_get", params -> {
                 String key = params.getString(0);
                 ServerPlayer serverPlayer = (ServerPlayer) player;
-                User user = CobblemonLuckPermsNPCCompat.INSTANCE.getLpManager().getLPUser(serverPlayer);
+                User user = LuckPermsHelper.INSTANCE.getUser(serverPlayer);
                 if (user == null) return null;
                 return user.getCachedData().getMetaData().getMetaValue(key);
             });
