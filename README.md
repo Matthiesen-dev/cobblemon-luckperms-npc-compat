@@ -6,6 +6,9 @@
   <img src="https://mods.matthiesen.dev/badges/luckperms.svg" alt="LuckPerms">
 </div>
 
+> ⚠️ This mod has been deprecated and is no longer going to receive updates.
+> If you are looking for a mod that allows NPCs to interact with LuckPerms, check out [Cobblemon NPC Extensions](https://modrinth.com/mod/cobblemon-npc-extensions) instead.
+
 This mod adds compatibility for Cobblemon NPCs to interact with the LuckPerms Permissions API.
 
 ## Requirements
